@@ -1,0 +1,14 @@
+{
+  "id": "{37801978-C8C9-E58E-9011-CFF32B74D9D9}",
+  "name": "Daemmerungspruefung",
+  "type": 3,
+  "vendor": "NTUB",
+  "url": "https://github.com/ubittner/Daemmerungspruefung",
+  "aliases": [
+    "Dämmerungsprüfung"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "DP"
+}
