@@ -149,11 +149,11 @@ class Daemmerungspruefung extends IPSModule
                     $messageDescription = 'keine Bezeichnung';
             }
             $formdata->elements[4]->items[0]->values[] = [
-                'ParentName'                                            => $parentName,
-                'SenderID'                                              => $senderID,
-                'SenderName'                                            => $senderName,
-                'MessageID'                                             => $messageID,
-                'MessageDescription'                                    => $messageDescription];
+                'ParentName'         => $parentName,
+                'SenderID'           => $senderID,
+                'SenderName'         => $senderName,
+                'MessageID'          => $messageID,
+                'MessageDescription' => $messageDescription];
         }
         return json_encode($formdata);
     }
@@ -266,7 +266,6 @@ class Daemmerungspruefung extends IPSModule
         // Threshold night
         $this->SetValue('ThresholdNight', $this->ReadPropertyFloat('ThresholdNight'));
         IPS_SetHidden($this->GetIDForIdent('ThresholdNight'), !$this->ReadPropertyBoolean('EnableThresholdNight'));
-
     }
 
     private function UnregisterMessages(): void
