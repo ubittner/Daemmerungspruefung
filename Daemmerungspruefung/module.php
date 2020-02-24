@@ -332,7 +332,7 @@ class Daemmerungspruefung extends IPSModule
                             // Check channel
                             $config = json_decode(IPS_GetConfiguration(IPS_GetParent($id)));
                             $address = strstr($config->Address, ':', false);
-                            if ($address != ':1' || $address != ':3') {
+                            if ($address != ':1' && $address != ':3') {
                                 $this->LogMessage('Konfiguration Helligkeitssensoren: Instanz, Kanal ungültig!', KL_ERROR);
                                 $state = 200;
                             }
