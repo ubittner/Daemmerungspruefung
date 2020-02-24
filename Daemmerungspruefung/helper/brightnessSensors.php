@@ -10,7 +10,7 @@ trait DP_brightnessSensors
      */
     public function DetermineBrightnessSensors(): void
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt. (' . microtime(true) . ')', 0);
+        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt (' . microtime(true) . ')', 0);
         $listedVariables = [];
         $instanceIDs = @IPS_GetInstanceListByModuleID(self::HOMEMATIC_MODULE_GUID);
         if (!empty($instanceIDs)) {
@@ -86,7 +86,7 @@ trait DP_brightnessSensors
      */
     public function CheckBrightnessSensors()
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt. (' . microtime(true) . ')', 0);
+        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt (' . microtime(true) . ')', 0);
         if (!$this->GetValue('TwilightDetection')) {
             $this->SendDebug(__FUNCTION__, 'Die Dämmerungsprüfung ist ausgeschaltet!', 0);
             return;
@@ -112,7 +112,7 @@ trait DP_brightnessSensors
                                         $lowBattery = (boolean) GetValue($child);
                                         if (!$lowBattery) {
                                             $value = (float) GetValue($brightnessSensor);
-                                            $this->SendDebug(__FUNCTION__, 'Die Helligkeit von ' . $brightnessSensor . ' beträgt: ' . $value, 0);
+                                            $this->SendDebug(__FUNCTION__, 'Die Helligkeit von ' . $brightnessSensor . ' beträgt ' . $value, 0);
                                             array_push($values, $value);
                                         } else {
                                             $this->SendDebug(__FUNCTION__, 'Die Batterie von ' . $brightnessSensor . ' ist schwach. Helligkeit wird nicht ausgewertet!', 0);
@@ -126,22 +126,37 @@ trait DP_brightnessSensors
             }
         }
         if (!empty($values)) {
+            $lastState = $this->GetValue('DayNightDetection');
             $averageBrightness = round(array_sum($values) / count($values), 1);
-            $this->SendDebug(__FUNCTION__, 'Der Mittelwert ist: ' . $averageBrightness, 0);
+            $this->SendDebug(__FUNCTION__, 'Der Mittelwert beträgt ' . $averageBrightness, 0);
             $timestamp = date('d.m.Y, H:i:s');
             $this->SetValue('LastUpdate', $timestamp);
             $this->SetValue('AverageValue', $averageBrightness);
             // Check day
             $thresholdDay = $this->ReadPropertyFloat('ThresholdDay');
             if ($averageBrightness >= $thresholdDay) {
-                $this->SendDebug(__FUNCTION__, 'Es ist Tag.', 0);
-                $this->SetValue('DayNightDetection', false);
+                $this->SendDebug(__FUNCTION__, "Der Schwellenwert 'Es ist Tag' wurde erreicht", 0);
+                $actualState = false;
             }
             // Check night
             $thresholdNight = $this->ReadPropertyFloat('ThresholdNight');
             if ($averageBrightness <= $thresholdNight) {
-                $this->SendDebug(__FUNCTION__, 'Es ist Nacht.', 0);
-                $this->SetValue('DayNightDetection', true);
+                $this->SendDebug(__FUNCTION__, "Der Schwellenwert 'Es ist Nacht' wurde erreicht", 0);
+                $actualState = true;
+            }
+            // Check neutral
+            if ($averageBrightness > $thresholdNight && $averageBrightness < $thresholdDay) {
+                $this->SendDebug(__FUNCTION__, "Der Schwellenwert liegt zwischen 'Es ist Tag' und 'Es ist Nacht'", 0);
+            }
+            if (isset($actualState)) {
+                if ($lastState != $actualState) {
+                    $logText = "Änderung auf 'Es ist Nacht' wurde vorgenommen";
+                    if (!$actualState) {
+                        $logText = "Änderung auf 'Es ist Tag' wurde vorgenommen";
+                    }
+                    $this->SendDebug(__FUNCTION__, $logText, 0);
+                    $this->SetValue('DayNightDetection', $actualState);
+                }
             }
         }
     }
@@ -156,7 +171,7 @@ trait DP_brightnessSensors
      */
     private function GetBrightnessSensors(): array
     {
-        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt. (' . microtime(true) . ')', 0);
+        $this->SendDebug(__FUNCTION__, 'Die Methode wird ausgeführt (' . microtime(true) . ')', 0);
         $sensors = [];
         $brightnessSensors = json_decode($this->ReadPropertyString('BrightnessSensors'));
         if (!empty($brightnessSensors)) {
