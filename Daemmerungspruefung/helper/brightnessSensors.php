@@ -129,8 +129,8 @@ trait DP_brightnessSensors
             $averageBrightness = round(array_sum($values) / count($values), 1);
             $this->SendDebug(__FUNCTION__, 'Der Mittelwert ist: ' . $averageBrightness, 0);
             $timestamp = date('d.m.Y, H:i:s');
-            $string = $averageBrightness . ' @' . $timestamp;
-            $this->SetValue('AverageValue', $string);
+            $this->SetValue('LastUpdate', $timestamp);
+            $this->SetValue('AverageValue', $averageBrightness);
             // Check day
             $thresholdDay = $this->ReadPropertyFloat('ThresholdDay');
             if ($averageBrightness >= $thresholdDay) {

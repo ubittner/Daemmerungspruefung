@@ -190,6 +190,7 @@ class Daemmerungspruefung extends IPSModule
         // Visibility
         $this->RegisterPropertyBoolean('EnableTwilightDetection', true);
         $this->RegisterPropertyBoolean('EnableDayNightDetection', true);
+        $this->RegisterPropertyBoolean('EnableLastUpdate', true);
         $this->RegisterPropertyBoolean('EnableAverageValue', true);
         $this->RegisterPropertyBoolean('EnableThresholdDay', true);
         $this->RegisterPropertyBoolean('EnableThresholdNight', true);
@@ -234,16 +235,20 @@ class Daemmerungspruefung extends IPSModule
         $profile = 'DP.' . $this->InstanceID . '.DayNightDetection';
         $this->RegisterVariableBoolean('DayNightDetection', 'Tag- / Nachterkennung', $profile, 1);
 
+        // Last update
+        $this->RegisterVariableString('LastUpdate', 'Letzte Aktualisierung', '', 2);
+        IPS_SetIcon($this->GetIDForIdent('LastUpdate'), 'Clock');
+
         // Average value
-        $this->RegisterVariableString('AverageValue', 'Mittelwert', '', 2);
+        $this->RegisterVariableString('AverageValue', 'Mittelwert', '', 3);
         IPS_SetIcon($this->GetIDForIdent('AverageValue'), 'Graph');
 
         // Threshold day
-        $this->RegisterVariableString('ThresholdDay', "Schwellenwert 'Es ist Tag'", '', 3);
+        $this->RegisterVariableString('ThresholdDay', "Schwellenwert 'Es ist Tag'", '', 4);
         IPS_SetIcon($this->GetIDForIdent('ThresholdDay'), 'Sun');
 
         // Threshold night
-        $this->RegisterVariableString('ThresholdNight', "Schwellenwert 'Es ist Nacht'", '', 4);
+        $this->RegisterVariableString('ThresholdNight', "Schwellenwert 'Es ist Nacht'", '', 5);
         IPS_SetIcon($this->GetIDForIdent('ThresholdNight'), 'Moon');
     }
 
@@ -255,6 +260,9 @@ class Daemmerungspruefung extends IPSModule
 
         // Day and night detection
         IPS_SetHidden($this->GetIDForIdent('DayNightDetection'), !$this->ReadPropertyBoolean('EnableDayNightDetection'));
+
+        // Last update
+        IPS_SetHidden($this->GetIDForIdent('LastUpdate'), !$this->ReadPropertyBoolean('EnableLastUpdate'));
 
         // Average value
         IPS_SetHidden($this->GetIDForIdent('AverageValue'), !$this->ReadPropertyBoolean('EnableAverageValue'));
