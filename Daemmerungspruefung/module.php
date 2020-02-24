@@ -158,11 +158,6 @@ class Daemmerungspruefung extends IPSModule
         return json_encode($formdata);
     }
 
-    public function ReloadConfiguration()
-    {
-        $this->ReloadForm();
-    }
-
     //#################### Request action
 
     public function RequestAction($Ident, $Value)

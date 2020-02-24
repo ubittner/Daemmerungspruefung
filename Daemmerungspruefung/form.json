@@ -210,17 +210,6 @@
   "actions": [
     {
       "type": "ExpansionPanel",
-      "caption": "Konfiguration",
-      "items": [
-        {
-          "type": "Button",
-          "caption": "Konfiguration neu einlesen",
-          "onClick": "DP_ReloadConfiguration($id);"
-        }
-      ]
-    },
-    {
-      "type": "ExpansionPanel",
       "caption": "Helligkeitssensoren",
       "items": [
         {
