@@ -126,7 +126,7 @@ trait DP_brightnessSensors
             }
         }
         if (!empty($values)) {
-            $lastState = $this->GetValue('DayNightDetection');
+            $lastState = $this->GetValue('TwilightState');
             $averageBrightness = round(array_sum($values) / count($values), 1);
             $this->SendDebug(__FUNCTION__, 'Der Mittelwert beträgt ' . $averageBrightness, 0);
             $timestamp = date('d.m.Y, H:i:s');
@@ -155,7 +155,8 @@ trait DP_brightnessSensors
                         $logText = "Änderung auf 'Es ist Tag' wurde vorgenommen";
                     }
                     $this->SendDebug(__FUNCTION__, $logText, 0);
-                    $this->SetValue('DayNightDetection', $actualState);
+                    $this->SetValue('TwilightState', $actualState);
+                    $this->ExecuteScript();
                 }
             }
         }

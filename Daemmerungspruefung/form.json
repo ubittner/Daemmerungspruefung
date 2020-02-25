@@ -165,6 +165,34 @@
     },
     {
       "type": "ExpansionPanel",
+      "caption": "Skriptausführung",
+      "items": [
+        {
+          "type": "Label",
+          "caption": "Bitte wählen Sie aus, ob ein Skript bei Statusänderung ausgeführt werden soll:"
+        },
+        {
+          "type": "CheckBox",
+          "name": "ExecuteScript",
+          "caption": "Skript ausführen"
+        },
+        {
+          "type": "Label",
+          "caption": "\nBitte wählen Sie das Skript aus:"
+        },
+        {
+          "type": "SelectScript",
+          "name": "Script",
+          "caption": "Skript"
+        },
+        {
+          "type": "Label",
+          "caption": "\nWird ein Skript verwendet, so wird der Status dem Skript übergeben:\n\n$_IPS['TwilightState']\n\nfalse\t= 'Es ist Tag'\ntrue\t\t= 'Es ist Nacht'"
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
       "caption": "Registrierte Nachrichten",
       "items": [
         {

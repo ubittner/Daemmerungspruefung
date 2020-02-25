@@ -35,6 +35,7 @@ class Daemmerungspruefung extends IPSModule
 {
     // Helper
     use DP_brightnessSensors;
+    use DP_scriptControl;
 
     // Constants
     private const HOMEMATIC_MODULE_GUID = '{EE4A81C6-5C90-4DB7-AD2F-F6BBD521412E}';
@@ -148,7 +149,7 @@ class Daemmerungspruefung extends IPSModule
                 default:
                     $messageDescription = 'keine Bezeichnung';
             }
-            $formdata->elements[4]->items[0]->values[] = [
+            $formdata->elements[5]->items[0]->values[] = [
                 'ParentName'         => $parentName,
                 'SenderID'           => $senderID,
                 'SenderName'         => $senderName,
@@ -196,12 +197,16 @@ class Daemmerungspruefung extends IPSModule
         // Thresholds
         $this->RegisterPropertyFloat('ThresholdDay', 60.5);
         $this->RegisterPropertyFloat('ThresholdNight', 20.5);
+
+        // Script control
+        $this->RegisterPropertyBoolean('ExecuteScript', false);
+        $this->RegisterPropertyInteger('Script', 0);
     }
 
     private function CreateProfiles(): void
     {
         // Day and night detection
-        $profile = 'DP.' . $this->InstanceID . '.DayNightDetection';
+        $profile = 'DP.' . $this->InstanceID . '.TwilightState';
         if (!IPS_VariableProfileExists($profile)) {
             IPS_CreateVariableProfile($profile, 0);
         }
@@ -211,7 +216,7 @@ class Daemmerungspruefung extends IPSModule
 
     private function DeleteProfiles(): void
     {
-        $profiles = ['DayNightDetection'];
+        $profiles = ['TwilightState'];
         foreach ($profiles as $profile) {
             $profileName = 'DP.' . $this->InstanceID . '.' . $profile;
             if (@IPS_VariableProfileExists($profileName)) {
@@ -227,8 +232,8 @@ class Daemmerungspruefung extends IPSModule
         $this->EnableAction('TwilightDetection');
 
         // Day and night detection
-        $profile = 'DP.' . $this->InstanceID . '.DayNightDetection';
-        $this->RegisterVariableBoolean('DayNightDetection', 'Tag- / Nachterkennung', $profile, 1);
+        $profile = 'DP.' . $this->InstanceID . '.TwilightState';
+        $this->RegisterVariableBoolean('TwilightState', 'Dämmerungsstatus', $profile, 1);
 
         // Last update
         $this->RegisterVariableString('LastUpdate', 'Letzte Aktualisierung', '', 2);
@@ -254,7 +259,7 @@ class Daemmerungspruefung extends IPSModule
         $this->EnableAction('TwilightDetection');
 
         // Day and night detection
-        IPS_SetHidden($this->GetIDForIdent('DayNightDetection'), !$this->ReadPropertyBoolean('EnableDayNightDetection'));
+        IPS_SetHidden($this->GetIDForIdent('TwilightState'), !$this->ReadPropertyBoolean('EnableDayNightDetection'));
 
         // Last update
         IPS_SetHidden($this->GetIDForIdent('LastUpdate'), !$this->ReadPropertyBoolean('EnableLastUpdate'));
