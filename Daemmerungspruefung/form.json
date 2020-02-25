@@ -61,7 +61,7 @@
         },
         {
           "type": "CheckBox",
-          "name": "EnableDayNightDetection",
+          "name": "EnableTwilightState",
           "caption": "Tag- / Nachterkennung"
         },
         {

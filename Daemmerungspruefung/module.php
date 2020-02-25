@@ -185,7 +185,7 @@ class Daemmerungspruefung extends IPSModule
     {
         // Visibility
         $this->RegisterPropertyBoolean('EnableTwilightDetection', true);
-        $this->RegisterPropertyBoolean('EnableDayNightDetection', true);
+        $this->RegisterPropertyBoolean('EnableTwilightState', true);
         $this->RegisterPropertyBoolean('EnableLastUpdate', true);
         $this->RegisterPropertyBoolean('EnableAverageValue', true);
         $this->RegisterPropertyBoolean('EnableThresholdDay', true);
@@ -258,8 +258,8 @@ class Daemmerungspruefung extends IPSModule
         IPS_SetHidden($this->GetIDForIdent('TwilightDetection'), !$this->ReadPropertyBoolean('EnableTwilightDetection'));
         $this->EnableAction('TwilightDetection');
 
-        // Day and night detection
-        IPS_SetHidden($this->GetIDForIdent('TwilightState'), !$this->ReadPropertyBoolean('EnableDayNightDetection'));
+        // Twilight state
+        IPS_SetHidden($this->GetIDForIdent('TwilightState'), !$this->ReadPropertyBoolean('EnableTwilightState'));
 
         // Last update
         IPS_SetHidden($this->GetIDForIdent('LastUpdate'), !$this->ReadPropertyBoolean('EnableLastUpdate'));

@@ -9,6 +9,8 @@ trait DP_scriptControl
      * Executes a script on status change.
      *
      * @return bool
+     * false    = an error occurred, script could not be executed
+     * true     = ok, script executed
      */
     public function ExecuteScript(): bool
     {
