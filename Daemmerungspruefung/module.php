@@ -103,9 +103,9 @@ class Daemmerungspruefung extends IPSModule
                 $this->KernelReady();
                 break;
 
-            // $Data[0] = actual value
-            // $Data[1] = difference to last value
-            // $Data[2] = last value
+                // $Data[0] = actual value
+                // $Data[1] = difference to last value
+                // $Data[2] = last value
             case VM_UPDATE:
                 // Brightness sensors
                 $brightnessSensors = json_decode($this->ReadPropertyString('BrightnessSensors'), true);
@@ -240,8 +240,12 @@ class Daemmerungspruefung extends IPSModule
         IPS_SetIcon($this->GetIDForIdent('LastUpdate'), 'Clock');
 
         // Average value
-        $this->RegisterVariableString('AverageValue', 'Mittelwert', '', 3);
+        $this->RegisterVariableInteger('AverageValue', 'Mittelwert', '', 3);
         IPS_SetIcon($this->GetIDForIdent('AverageValue'), 'Graph');
+
+        // Average value text
+        $this->RegisterVariableString('AverageValueText', 'Mittelwert', '', 3);
+        IPS_SetIcon($this->GetIDForIdent('AverageValueText'), 'Graph');
 
         // Threshold day
         $this->RegisterVariableString('ThresholdDay', "Schwellenwert 'Es ist Tag'", '', 4);

@@ -132,6 +132,7 @@ trait DP_brightnessSensors
             $timestamp = date('d.m.Y, H:i:s');
             $this->SetValue('LastUpdate', $timestamp);
             $this->SetValue('AverageValue', $averageBrightness);
+            $this->SetValue('AverageValueText', $averageBrightness);
             // Check day
             $thresholdDay = $this->ReadPropertyFloat('ThresholdDay');
             if ($averageBrightness >= $thresholdDay) {
